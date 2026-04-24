@@ -12,10 +12,11 @@ type TimeSlotProps = {
 
 function TimeSlot({name, timeDifference, sliderVal, timeString, handleChange}: TimeSlotProps) {
     return (
-        <>
-            <div className="p-3">{name} +{timeDifference} hr(s)</div>
-            <div className="p-3">
+        <div className="p-4 border">
+            <div className="p-3 text-center font-karla">{name} +{timeDifference} hr(s)</div>
+            <div className="p-3 text-center">
                 <input
+                    className=""
                     type="range"
                     min="0"
                     max="1439"
@@ -24,8 +25,8 @@ function TimeSlot({name, timeDifference, sliderVal, timeString, handleChange}: T
                     onChange={handleChange}
                 />
             </div>
-            <div className="p-3">{timeString}</div>
-        </>
+            <div className="p-3 text-center font-orbitron font-semibold">{timeString}</div>
+        </div>
     )
 }
 
@@ -69,45 +70,35 @@ function TimeSlotBoard() {
         <>
             <div className="grid place-items-center">
                 <div className="grid grid-cols-2 grid-rows-2 gap-8 place-items-center">
-                    <div className="p-4">
-                        <TimeSlot
-                            name={"Matthew"}
-                            timeDifference={0}
-                            sliderVal={toLocalTime(currentTime, 0)}
-                            timeString={getTime(toLocalTime(currentTime, 0))}
-                            handleChange={changeTime(0)}
-                        />
-                    </div>
+                    <TimeSlot
+                        name={"Matthew"}
+                        timeDifference={0}
+                        sliderVal={toLocalTime(currentTime, 0)}
+                        timeString={getTime(toLocalTime(currentTime, 0))}
+                        handleChange={changeTime(0)}
+                    />
 
-                    <div className="p-4">
-                        <TimeSlot
-                            name={"Elise"}
-                            timeDifference={6}
-                            sliderVal={toLocalTime(currentTime, 6)}
-                            timeString={getTime(toLocalTime(currentTime, 6))}
-                            handleChange={changeTime(6)}
-                        />
-                    </div>
-
-                    <div className="p-4">
-                        <TimeSlot
-                            name={"Amanda"}
-                            timeDifference={13}
-                            sliderVal={toLocalTime(currentTime, 13)}
-                            timeString={getTime(toLocalTime(currentTime, 13))}
-                            handleChange={changeTime(13)}
-                        />
-                    </div>
-
-                    <div className="p-4">
-                        <TimeSlot
-                            name={"Susan"}
-                            timeDifference={18}
-                            sliderVal={toLocalTime(currentTime, 18)}
-                            timeString={getTime(toLocalTime(currentTime, 18))}
-                            handleChange={changeTime(18)}
-                        />
-                    </div>
+                    <TimeSlot
+                        name={"Elise"}
+                        timeDifference={6}
+                        sliderVal={toLocalTime(currentTime, 6)}
+                        timeString={getTime(toLocalTime(currentTime, 6))}
+                        handleChange={changeTime(6)}
+                    />
+                    <TimeSlot
+                        name={"Amanda"}
+                        timeDifference={13}
+                        sliderVal={toLocalTime(currentTime, 13)}
+                        timeString={getTime(toLocalTime(currentTime, 13))}
+                        handleChange={changeTime(13)}
+                    />
+                    <TimeSlot
+                        name={"Susan"}
+                        timeDifference={18}
+                        sliderVal={toLocalTime(currentTime, 18)}
+                        timeString={getTime(toLocalTime(currentTime, 18))}
+                        handleChange={changeTime(18)}
+                    />
                 </div>
             </div>
         </>
