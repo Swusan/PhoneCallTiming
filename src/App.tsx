@@ -12,8 +12,8 @@ type TimeSlotProps = {
 
 function TimeSlot({name, timeDifference, sliderVal, timeString, handleChange}: TimeSlotProps) {
     return (
-        <div className="p-4 border">
-            <div className="p-3 text-center font-karla">{name} +{timeDifference} hr(s)</div>
+        <div className="px-12 py-4">
+            <div className="p-3 text-center font-karla text-lg">{name} +{timeDifference} hr(s)</div>
             <div className="p-3 text-center">
                 <input
                     className=""
@@ -108,7 +108,7 @@ function TimeSlotBoard() {
 function App() {
     return (
     <>
-        <div className={"text-center text-5xl font-bold font-[roboto] p-10"}>Phone Call Timing</div>
+        <div className={"w-screen text-center text-5xl font-bold tracking-widest font-zen-dots p-8 text-white"}>- - - - PHONE CALL TIMING - - - -</div>
         <div>
             <TimeSlotBoard/>
         </div>
