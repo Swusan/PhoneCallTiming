@@ -19,6 +19,7 @@ function TimeSlot({name, timeDifference, sliderVal, timeString, handleChange}: T
                     type="range"
                     min="0"
                     max="1439"
+                    step="5"
                     value={sliderVal}
                     onChange={handleChange}
                 />
@@ -48,8 +49,20 @@ function TimeSlotBoard() {
 
     const changeTime = (timeDiff: number): ChangeEventHandler<HTMLInputElement> =>
         (e) => {
-        const newTime = Number(e.target.value)
-        setCurrentTime(fromLocalTime(newTime, timeDiff))
+
+        const val = Number(e.target.value);
+        const max = Number(e.target.max);
+        const step = 5;
+        let adjustedValue: number;
+
+        // Snap to increments of 5, UNLESS we are near the max
+        if (val > max - (step / 2)) {
+            adjustedValue = max;
+        } else {
+            adjustedValue = Math.round(val / step) * step;
+        }
+
+        setCurrentTime(fromLocalTime(adjustedValue, timeDiff))
     }
 
     return (
