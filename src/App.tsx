@@ -56,8 +56,7 @@ function TimeSlotBoard() {
         const step = 5;
         let adjustedValue: number;
 
-        // Snap to increments of 5, UNLESS we are near the max
-        if (val > max - (step / 2)) {
+        if (val > max - step) {
             adjustedValue = max;
         } else {
             adjustedValue = Math.round(val / step) * step;
