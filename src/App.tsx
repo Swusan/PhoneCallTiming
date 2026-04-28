@@ -16,7 +16,7 @@ function TimeSlot({name, timeDifference, sliderVal, timeString, handleChange}: T
             <div className="p-3 text-center font-karla text-lg">{name} +{timeDifference} hr(s)</div>
             <div className="p-3 text-center">
                 <input
-                    className=""
+                    className="accent-emerald-600"
                     type="range"
                     min="0"
                     max="1439"
