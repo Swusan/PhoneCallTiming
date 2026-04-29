@@ -83,7 +83,7 @@ function TimeSlotBoard() {
                     <div className="py-2 align-top">
                         <label className="font-karla px-2" htmlFor="fname">Name: </label>
                         <input
-                            className="bg-gray-500 rounded-lg px-2"
+                            className="bg-gray-400 rounded-lg px-2"
                             type="text"
                             id="fname"
                             placeholder="Enter Name..."
@@ -92,7 +92,7 @@ function TimeSlotBoard() {
                     <div className="py-2 align-bottom">
                         <label className="font-karla px-2" htmlFor="fnum">Time Offset: </label>
                         <input
-                            className="bg-gray-500 px-2 rounded-lg"
+                            className="bg-gray-400 px-2 rounded-lg"
                             type="number"
                             value = {currentOffsetInput}
                             min="0"
@@ -105,10 +105,10 @@ function TimeSlotBoard() {
                     </div>
                     <div className='p-2 align-bottom'>
                         <button 
-                        className='p-1 font-karla bg-emerald-500 rounded-lg' 
+                        className='px-2 py-1 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer hover:bg-[rgb(255,130,28)] hover:shadow-[0_2px_6px_0_rgba(0,0,0,0.1),0_7px_7px_0_rgba(0,0,0,0.1)] active:bg-[rgb(255,114,0)] active:shadow-[0_0_4px_0_rgba(0,0,0,0.1),0_5px_5px_0_rgba(0,0,0,0.1)] active:translate-y-px' 
                         type="button"
                         >
-                        Joe Mama
+                        Insert
                         </button>
                     </div>
                 </div>
