@@ -1,5 +1,5 @@
 import './App.css'
-import type {ChangeEventHandler} from "react";
+import type {ChangeEvent, ChangeEventHandler, FormEventHandler} from "react";
 import {useState} from "react";
 
 type TimeSlotProps = {
@@ -32,6 +32,7 @@ function TimeSlot({name, timeDifference, sliderVal, timeString, handleChange}: T
 
 function TimeSlotBoard() {
     const [currentTime, setCurrentTime] = useState(0)
+    const [currentOffsetInput, setCurrentOffsetInput] = useState<number | string>("");
 
     function toLocalTime(base: number, offset: number): number {
         return (base + offset * 60 + 1440) % 1440
@@ -65,39 +66,43 @@ function TimeSlotBoard() {
         setCurrentTime(fromLocalTime(adjustedValue, timeDiff))
     }
 
+    const handleOffsetInput = (e: ChangeEvent<HTMLInputElement>) => {
+        const numVal = Number(e.target.value)
+
+        if (!isNaN(numVal) && numVal > Number(e.target.max)) {
+            setCurrentOffsetInput(23);
+        } else if (!isNaN(numVal) && numVal < Number(e.target.min)) {
+            setCurrentOffsetInput(0);
+        }
+    };
+
     return (
         <>
-            <div className="grid place-items-center">
-                <div className="grid grid-cols-2 grid-rows-2 gap-8 place-items-center">
-                    <TimeSlot
-                        name={"Matthew"}
-                        timeDifference={0}
-                        sliderVal={toLocalTime(currentTime, 0)}
-                        timeString={getTime(toLocalTime(currentTime, 0))}
-                        handleChange={changeTime(0)}
+            <div className="flex items-center">
+                <div>
+                    <label className="font-karla px-2" htmlFor="fname">Name: </label>
+                    <input
+                        className="bg-gray-500 rounded-lg px-2"
+                        type="text"
+                        id="fname"
+                        placeholder="Enter Name..."
                     />
-
-                    <TimeSlot
-                        name={"Elise"}
-                        timeDifference={6}
-                        sliderVal={toLocalTime(currentTime, 6)}
-                        timeString={getTime(toLocalTime(currentTime, 6))}
-                        handleChange={changeTime(6)}
+                    <label className="font-karla px-2" htmlFor="fnum">Time Offset: </label>
+                    <input
+                        className="bg-gray-500 px-2 rounded-lg"
+                        type="number"
+                        value = {currentOffsetInput}
+                        min="0"
+                        max="23"
+                        onChange={(e) => setCurrentOffsetInput(e.target.value)}
+                        onBlur={handleOffsetInput}
+                        id="fnum"
                     />
-                    <TimeSlot
-                        name={"Amanda"}
-                        timeDifference={13}
-                        sliderVal={toLocalTime(currentTime, 13)}
-                        timeString={getTime(toLocalTime(currentTime, 13))}
-                        handleChange={changeTime(13)}
-                    />
-                    <TimeSlot
-                        name={"Susan"}
-                        timeDifference={16}
-                        sliderVal={toLocalTime(currentTime, 16)}
-                        timeString={getTime(toLocalTime(currentTime, 16))}
-                        handleChange={changeTime(16)}
-                    />
+                </div>
+                <div className="grid place-items-center">
+                    <div className="grid grid-cols-2 gap-8 place-items-center">
+                
+                    </div>
                 </div>
             </div>
         </>
