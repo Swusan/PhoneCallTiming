@@ -80,25 +80,39 @@ function TimeSlotBoard() {
         <>
             <div className="flex items-center">
                 <div>
-                    <label className="font-karla px-2" htmlFor="fname">Name: </label>
-                    <input
-                        className="bg-gray-500 rounded-lg px-2"
-                        type="text"
-                        id="fname"
-                        placeholder="Enter Name..."
-                    />
-                    <label className="font-karla px-2" htmlFor="fnum">Time Offset: </label>
-                    <input
-                        className="bg-gray-500 px-2 rounded-lg"
-                        type="number"
-                        value = {currentOffsetInput}
-                        min="0"
-                        max="23"
-                        onChange={(e) => setCurrentOffsetInput(e.target.value)}
-                        onBlur={handleOffsetInput}
-                        id="fnum"
-                    />
+                    <div className="py-2 align-top">
+                        <label className="font-karla px-2" htmlFor="fname">Name: </label>
+                        <input
+                            className="bg-gray-500 rounded-lg px-2"
+                            type="text"
+                            id="fname"
+                            placeholder="Enter Name..."
+                        />
+                    </div>
+                    <div className="py-2 align-bottom">
+                        <label className="font-karla px-2" htmlFor="fnum">Time Offset: </label>
+                        <input
+                            className="bg-gray-500 px-2 rounded-lg"
+                            type="number"
+                            value = {currentOffsetInput}
+                            min="0"
+                            max="23"
+                            onChange={(e) => setCurrentOffsetInput(e.target.value)}
+                            onBlur={handleOffsetInput}
+                            placeholder="Offset.."
+                            id="fnum"
+                        />
+                    </div>
+                    <div className='p-2 align-bottom'>
+                        <button 
+                        className='p-1 font-karla bg-emerald-500 rounded-lg' 
+                        type="button"
+                        >
+                        Joe Mama
+                        </button>
+                    </div>
                 </div>
+
                 <div className="grid place-items-center">
                     <div className="grid grid-cols-2 gap-8 place-items-center">
                 
