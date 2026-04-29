@@ -2,6 +2,8 @@ import './App.css'
 import type {ChangeEvent, ChangeEventHandler, FormEventHandler} from "react";
 import {useState} from "react";
 
+const [timeSlots, setTimeSlots] = useState(0);
+
 type TimeSlotProps = {
     name: string
     timeDifference: number
@@ -31,8 +33,7 @@ function TimeSlot({name, timeDifference, sliderVal, timeString, handleChange}: T
 }
 
 function TimeSlotBoard() {
-    const [currentTime, setCurrentTime] = useState(0)
-    const [currentOffsetInput, setCurrentOffsetInput] = useState<number | string>("");
+    const [currentTime, setCurrentTime] = useState(0);
 
     function toLocalTime(base: number, offset: number): number {
         return (base + offset * 60 + 1440) % 1440
@@ -66,6 +67,19 @@ function TimeSlotBoard() {
         setCurrentTime(fromLocalTime(adjustedValue, timeDiff))
     }
 
+    return (
+        <>
+            <div className="grid place-items-center">
+                <div className="grid grid-cols-2 gap-8 place-items-center">
+                </div>
+            </div>
+        </>
+    )
+}
+
+function InputForm() {
+    const [currentOffsetInput, setCurrentOffsetInput] = useState<number | string>("");
+
     const handleOffsetInput = (e: ChangeEvent<HTMLInputElement>) => {
         const numVal = Number(e.target.value)
 
@@ -77,49 +91,39 @@ function TimeSlotBoard() {
     };
 
     return (
-        <>
-            <div className="flex items-center">
-                <div>
-                    <div className="py-2 align-top">
-                        <label className="font-karla px-2" htmlFor="fname">Name: </label>
-                        <input
-                            className="bg-gray-400 rounded-lg px-2"
-                            type="text"
-                            id="fname"
-                            placeholder="Enter Name..."
-                        />
-                    </div>
-                    <div className="py-2 align-bottom">
-                        <label className="font-karla px-2" htmlFor="fnum">Time Offset: </label>
-                        <input
-                            className="bg-gray-400 px-2 rounded-lg"
-                            type="number"
-                            value = {currentOffsetInput}
-                            min="0"
-                            max="23"
-                            onChange={(e) => setCurrentOffsetInput(e.target.value)}
-                            onBlur={handleOffsetInput}
-                            placeholder="Offset.."
-                            id="fnum"
-                        />
-                    </div>
-                    <div className='p-2 align-bottom'>
-                        <button 
-                        className='px-2 py-1 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer hover:bg-[rgb(255,130,28)] hover:shadow-[0_2px_6px_0_rgba(0,0,0,0.1),0_7px_7px_0_rgba(0,0,0,0.1)] active:bg-[rgb(255,114,0)] active:shadow-[0_0_4px_0_rgba(0,0,0,0.1),0_5px_5px_0_rgba(0,0,0,0.1)] active:translate-y-px' 
-                        type="button"
-                        >
-                        Insert
-                        </button>
-                    </div>
-                </div>
-
-                <div className="grid place-items-center">
-                    <div className="grid grid-cols-2 gap-8 place-items-center">
-                
-                    </div>
-                </div>
+        <div>
+            <div className="py-2 align-top">
+                <label className="font-karla px-2" htmlFor="fname">Name: </label>
+                <input
+                    className="bg-gray-400 rounded-lg px-2"
+                    type="text"
+                    id="fname"
+                    placeholder="Enter Name..."
+                />
             </div>
-        </>
+            <div className="py-2 align-bottom">
+                <label className="font-karla px-2" htmlFor="fnum">Time Offset: </label>
+                <input
+                    className="bg-gray-400 px-2 rounded-lg"
+                    type="number"
+                    value = {currentOffsetInput}
+                    min="0"
+                    max="23"
+                    onChange={(e) => setCurrentOffsetInput(e.target.value)}
+                    onBlur={handleOffsetInput}
+                    placeholder="Offset.."
+                    id="fnum"
+                />
+            </div>
+            <div className='p-2 align-bottom'>
+                <button 
+                className='px-2 py-1 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer hover:bg-[rgb(255,130,28)] hover:shadow-[0_2px_6px_0_rgba(0,0,0,0.1),0_7px_7px_0_rgba(0,0,0,0.1)] active:bg-[rgb(255,114,0)] active:shadow-[0_0_4px_0_rgba(0,0,0,0.1),0_5px_5px_0_rgba(0,0,0,0.1)] active:translate-y-px' 
+                type="button"
+                >
+                Insert
+                </button>
+            </div>
+        </div>
     )
 }
 
@@ -128,6 +132,7 @@ function App() {
     <>
         <div className={"w-screen text-center text-5xl font-bold tracking-widest font-zen-dots p-8 text-[rgb(255,83,83)]"}>- - - - PHONE CALL TIMING - - - -</div>
         <div>
+            <InputForm/>
             <TimeSlotBoard/>
         </div>
     </>
