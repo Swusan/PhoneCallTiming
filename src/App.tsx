@@ -91,13 +91,16 @@ function InputForm({onInsert}: InputFormProps) {
     const handleOffsetChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (!(e.target.value === "")) {
           setCurrentOffsetInput(Number(e.target.value))  
+        } else {
+            setCurrentOffsetInput("");
         }
     }
 
     return (
         <>
-            <div>
-                <div className="py-2 align-top">
+            <div className="w-fit h-fit p-4 grid grid-rows-4 place-items-center bg-[rgb(255,130,28)] rounded-lg">
+                <span className="font-karla p-2 font-bold text-xl">Add a Friend</span>
+                <div className="py-2">
                     <label className="font-karla px-2" htmlFor="fname">Name: </label>
                     <input
                         className="bg-gray-400 rounded-lg px-2"
@@ -106,7 +109,7 @@ function InputForm({onInsert}: InputFormProps) {
                         placeholder="Enter Name..."
                     />
                 </div>
-                <div className="py-2 align-bottom">
+                <div className="py-2">
                     <label className="font-karla px-2" htmlFor="fnum">Time Offset: </label>
                     <input
                         className="bg-gray-400 px-2 rounded-lg"
@@ -120,9 +123,9 @@ function InputForm({onInsert}: InputFormProps) {
                         id="fnum"
                     />
                 </div>
-                <div className='p-2 align-bottom'>
+                <div className='p-2'>
                     <button
-                    className='px-2 py-1 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer hover:bg-[rgb(255,130,28)] hover:shadow-[0_2px_6px_0_rgba(0,0,0,0.1),0_7px_7px_0_rgba(0,0,0,0.1)] active:bg-[rgb(255,114,0)] active:shadow-[0_0_4px_0_rgba(0,0,0,0.1),0_5px_5px_0_rgba(0,0,0,0.1)] active:translate-y-px'
+                    className='px-2 py-1 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer transition-transform duration-300 ease-in-out shadow-s hover:bg-cyan-600 hover:shadow-xl active:bg-cyan-800 active:shadow-xl active:translate-y-px'
                     type="button"
                     onClick={() => {
                         if (typeof currentOffsetInput === "number" && currentOffsetInput >= 0 && currentOffsetInput <= 23 && (document.getElementById("fname") as HTMLInputElement).value.trim() !== "") {
@@ -156,6 +159,8 @@ function App() {
         return (local - offset * 60 + 1440) % 1440
     }
 
+    // TODO: Limit Names to 12 chars
+
     const changeTime = (timeDiff: number): ChangeEventHandler<HTMLInputElement> =>
         (e) => {
 
@@ -176,7 +181,7 @@ function App() {
     return (
     <>
         <div className={"w-screen text-center text-5xl font-bold tracking-widest font-zen-dots p-8 text-[rgb(255,83,83)]"}>- - - - PHONE CALL TIMING - - - -</div>
-        <div className="justify-center">
+        <div className="grid grid-cols-2 justify-items-center">
             <InputForm onInsert={(name: string, offset: number) => {
                 setTimeSlots([...timeSlots, { name, offset }]);
             }}/>
