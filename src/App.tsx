@@ -2,14 +2,22 @@ import './App.css'
 import type {ChangeEvent, ChangeEventHandler} from "react";
 import {useState} from "react";
 
-
-
 type TimeSlotProps = {
     name: string
     timeDifference: number
     sliderVal: number
     timeString: string
     handleChange: ChangeEventHandler<HTMLInputElement>
+}
+
+type TimeSlotBoardProps = {
+    slots: {name: string, offset: number}[]
+    currentTime: number
+    changeTime: (timeDiff:number) => ChangeEventHandler<HTMLInputElement>
+}
+
+type InputFormProps = {
+    onInsert: (name: string, offset: number) => void
 }
 
 function TimeSlot({name, timeDifference, sliderVal, timeString, handleChange}: TimeSlotProps) {
@@ -32,15 +40,9 @@ function TimeSlot({name, timeDifference, sliderVal, timeString, handleChange}: T
     )
 }
 
-function TimeSlotBoard() {
-    const [currentTime, setCurrentTime] = useState(0);
-
+function TimeSlotBoard({slots, currentTime, changeTime}: TimeSlotBoardProps) {
     function toLocalTime(base: number, offset: number): number {
         return (base + offset * 60 + 1440) % 1440
-    }
-
-    function fromLocalTime(local: number, offset: number): number {
-        return (local - offset * 60 + 1440) % 1440
     }
 
     function getTime(time : number) {
@@ -50,45 +52,47 @@ function TimeSlotBoard() {
             + ":" + String(time % 60).padStart(2, "0") + " " + (time >= 720 ? "p.m." : "a.m.")
     }
 
-    const changeTime = (timeDiff: number): ChangeEventHandler<HTMLInputElement> =>
-        (e) => {
-
-        const val = Number(e.target.value);
-        const max = Number(e.target.max);
-        const step = 5;
-        let adjustedValue: number;
-
-        if (val > max - step) {
-            adjustedValue = max;
-        } else {
-            adjustedValue = Math.round(val / step) * step;
-        }
-
-        setCurrentTime(fromLocalTime(adjustedValue, timeDiff))
-    }
-
     return (
         <>
             <div className="grid place-items-center">
                 <div className="grid grid-cols-2 gap-8 place-items-center">
+                    {slots.map(
+                        (timeSlot) => (
+                            <div>
+                                <TimeSlot
+                                    name={timeSlot.name}
+                                    timeDifference={timeSlot.offset}
+                                    sliderVal={toLocalTime(currentTime, timeSlot.offset)}
+                                    timeString={getTime(toLocalTime(currentTime, timeSlot.offset))}
+                                    handleChange={changeTime(timeSlot.offset)}
+                                />
+                            </div>
+                        )
+                    )}
                 </div>
             </div>
         </>
     )
 }
 
-function InputForm() {
+function InputForm({onInsert}: InputFormProps) {
     const [currentOffsetInput, setCurrentOffsetInput] = useState<number | string>("");
 
     const handleOffsetInput = (e: ChangeEvent<HTMLInputElement>) => {
         const numVal = Number(e.target.value)
 
         if (!isNaN(numVal) && numVal > Number(e.target.max)) {
-            setCurrentOffsetInput(23);
+            setCurrentOffsetInput(Number(23));
         } else if (!isNaN(numVal) && numVal < Number(e.target.min)) {
-            setCurrentOffsetInput(0);
+            setCurrentOffsetInput(Number(0));
         }
     };
+
+    const handleOffsetChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (!(e.target.value === "")) {
+          setCurrentOffsetInput(Number(e.target.value))  
+        }
+    }
 
     return (
         <>
@@ -110,7 +114,7 @@ function InputForm() {
                         value = {currentOffsetInput}
                         min="0"
                         max="23"
-                        onChange={(e) => setCurrentOffsetInput(e.target.value)}
+                        onChange={handleOffsetChange}
                         onBlur={handleOffsetInput}
                         placeholder="Offset.."
                         id="fnum"
@@ -120,6 +124,21 @@ function InputForm() {
                     <button
                     className='px-2 py-1 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer hover:bg-[rgb(255,130,28)] hover:shadow-[0_2px_6px_0_rgba(0,0,0,0.1),0_7px_7px_0_rgba(0,0,0,0.1)] active:bg-[rgb(255,114,0)] active:shadow-[0_0_4px_0_rgba(0,0,0,0.1),0_5px_5px_0_rgba(0,0,0,0.1)] active:translate-y-px'
                     type="button"
+                    onClick={() => {
+                        if (typeof currentOffsetInput === "number" && currentOffsetInput >= 0 && currentOffsetInput <= 23 && (document.getElementById("fname") as HTMLInputElement).value.trim() !== "") {
+                            onInsert((document.getElementById("fname") as HTMLInputElement).value.trim(), currentOffsetInput);
+                            setCurrentOffsetInput("");
+                            (document.getElementById("fname") as HTMLInputElement).value = "";
+                        } else {
+                            if (document.getElementById("fname") as HTMLInputElement && (document.getElementById("fname") as HTMLInputElement).value.trim() === "") {
+                                alert("Please enter a name.");
+                            } else if (typeof currentOffsetInput !== "number" || currentOffsetInput < 0 || currentOffsetInput > 23) {
+                                alert("Enter a valid number.")
+                            } else {
+                                alert("Unknown error. Please try again.");
+                            }
+                        }
+                    }}
                     >
                     Insert
                     </button>
@@ -131,13 +150,41 @@ function InputForm() {
 
 function App() {
     const [timeSlots, setTimeSlots] = useState<{name: string, offset: number}[]>([]);
+    const [currentTime, setCurrentTime] = useState(0);
+
+    function fromLocalTime(local: number, offset: number): number {
+        return (local - offset * 60 + 1440) % 1440
+    }
+
+    const changeTime = (timeDiff: number): ChangeEventHandler<HTMLInputElement> =>
+        (e) => {
+
+        const val = Number(e.target.value);
+        const max = Number(e.target.max);
+        const step = 5;
+        let adjustedValue: number;
+
+        if (val > max - step) {
+            adjustedValue = max;
+        } else {
+            adjustedValue = Math.round(val / step) * step;
+        }
+
+        setCurrentTime(fromLocalTime(adjustedValue, timeDiff))
+    }
 
     return (
     <>
         <div className={"w-screen text-center text-5xl font-bold tracking-widest font-zen-dots p-8 text-[rgb(255,83,83)]"}>- - - - PHONE CALL TIMING - - - -</div>
         <div>
-            <InputForm/>
-            <TimeSlotBoard/>
+            <InputForm onInsert={(name: string, offset: number) => {
+                setTimeSlots([...timeSlots, { name, offset }]);
+            }}/>
+            <TimeSlotBoard 
+            slots={timeSlots}
+            currentTime={currentTime}
+            changeTime={changeTime}
+            />
         </div>
     </>
     )
