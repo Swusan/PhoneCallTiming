@@ -176,7 +176,7 @@ function App() {
     return (
     <>
         <div className={"w-screen text-center text-5xl font-bold tracking-widest font-zen-dots p-8 text-[rgb(255,83,83)]"}>- - - - PHONE CALL TIMING - - - -</div>
-        <div>
+        <div className="justify-center">
             <InputForm onInsert={(name: string, offset: number) => {
                 setTimeSlots([...timeSlots, { name, offset }]);
             }}/>
