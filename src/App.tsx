@@ -110,7 +110,7 @@ function InputForm({onInsert}: InputFormProps) {
                     />
                 </div>
                 <div className="py-2">
-                    <label className="font-karla px-2" htmlFor="fnum">Time Offset: </label>
+                    <label className="font-karla px-2" htmlFor="fnum">Time Offset (+ hr[s]): </label>
                     <input
                         className="bg-gray-400 px-2 rounded-lg"
                         type="number"
