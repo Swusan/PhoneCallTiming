@@ -151,7 +151,7 @@ function InputForm({onInsert, onClearAll}: InputFormProps) {
                 </div>
                 <div>
                 <button
-                    className="px-2 py-1 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer transition-transform duration-300 ease-in-out shadow-s hover:bg-cyan-600 hover:shadow-xl active:bg-cyan-800 active:shadow-xl active:translate-y-px"
+                    className="px-4 py-2 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer transition-transform duration-300 ease-in-out shadow-s hover:bg-cyan-600 hover:shadow-xl active:bg-cyan-800 active:shadow-xl active:translate-y-px"
                     type="button"
                     onClick={onClearAll}
                 >
