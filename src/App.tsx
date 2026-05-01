@@ -18,6 +18,7 @@ type TimeSlotBoardProps = {
 
 type InputFormProps = {
     onInsert: (name: string, offset: number) => void
+    onClearAll: () => void
 }
 
 function TimeSlot({name, timeDifference, sliderVal, timeString, handleChange}: TimeSlotProps) {
@@ -75,7 +76,7 @@ function TimeSlotBoard({slots, currentTime, changeTime}: TimeSlotBoardProps) {
     )
 }
 
-function InputForm({onInsert}: InputFormProps) {
+function InputForm({onInsert, onClearAll}: InputFormProps) {
     const [currentOffsetInput, setCurrentOffsetInput] = useState<number | string>("");
 
     const handleOffsetInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -98,53 +99,64 @@ function InputForm({onInsert}: InputFormProps) {
 
     return (
         <>
-            <div className="w-fit h-fit p-4 grid grid-rows-4 place-items-center bg-[rgb(255,130,28)] rounded-lg">
-                <span className="font-karla p-2 font-bold text-xl">Add a Friend</span>
-                <div className="py-2">
-                    <label className="font-karla px-2" htmlFor="fname">Name: </label>
-                    <input
-                        className="bg-gray-400 rounded-lg px-2"
-                        type="text"
-                        id="fname"
-                        placeholder="Enter Name..."
-                    />
-                </div>
-                <div className="py-2">
-                    <label className="font-karla px-2" htmlFor="fnum">Time Offset (+ hr[s]): </label>
-                    <input
-                        className="bg-gray-400 px-2 rounded-lg"
-                        type="number"
-                        value = {currentOffsetInput}
-                        min="0"
-                        max="23"
-                        onChange={handleOffsetChange}
-                        onBlur={handleOffsetInput}
-                        placeholder="Offset.."
-                        id="fnum"
-                    />
-                </div>
-                <div className='p-2'>
-                    <button
-                    className='px-2 py-1 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer transition-transform duration-300 ease-in-out shadow-s hover:bg-cyan-600 hover:shadow-xl active:bg-cyan-800 active:shadow-xl active:translate-y-px'
-                    type="button"
-                    onClick={() => {
-                        if (typeof currentOffsetInput === "number" && currentOffsetInput >= 0 && currentOffsetInput <= 23 && (document.getElementById("fname") as HTMLInputElement).value.trim() !== "") {
-                            onInsert((document.getElementById("fname") as HTMLInputElement).value.trim(), currentOffsetInput);
-                            setCurrentOffsetInput("");
-                            (document.getElementById("fname") as HTMLInputElement).value = "";
-                        } else {
-                            if (document.getElementById("fname") as HTMLInputElement && (document.getElementById("fname") as HTMLInputElement).value.trim() === "") {
-                                alert("Please enter a name.");
-                            } else if (typeof currentOffsetInput !== "number" || currentOffsetInput < 0 || currentOffsetInput > 23) {
-                                alert("Enter a valid number.")
+            <div className="w-fit flex flex-col gap-20 items-center">
+                <div className="w-fit h-fit p-4 flex flex-col items-center bg-[rgb(255,130,28)] rounded-lg">
+                    <span className="font-karla p-2 font-bold text-xl">Add a Friend</span>
+                    <div className="py-2">
+                        <label className="font-karla px-2" htmlFor="fname">Name: </label>
+                        <input
+                            className="bg-gray-400 rounded-lg px-2"
+                            type="text"
+                            id="fname"
+                            placeholder="Enter Name..."
+                        />
+                    </div>
+                    <div className="py-2">
+                        <label className="font-karla px-2" htmlFor="fnum">Time Offset (+ hr[s]): </label>
+                        <input
+                            className="bg-gray-400 px-2 rounded-lg"
+                            type="number"
+                            value = {currentOffsetInput}
+                            min="0"
+                            max="23"
+                            onChange={handleOffsetChange}
+                            onBlur={handleOffsetInput}
+                            placeholder="Offset.."
+                            id="fnum"
+                        />
+                    </div>
+                    <div className='p-2'>
+                        <button
+                        className='px-2 py-1 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer transition-transform duration-300 ease-in-out shadow-s hover:bg-cyan-600 hover:shadow-xl active:bg-cyan-800 active:shadow-xl active:translate-y-px'
+                        type="button"
+                        onClick={() => {
+                            if (typeof currentOffsetInput === "number" && currentOffsetInput >= 0 && currentOffsetInput <= 23 && (document.getElementById("fname") as HTMLInputElement).value.trim() !== "") {
+                                onInsert((document.getElementById("fname") as HTMLInputElement).value.trim(), currentOffsetInput);
+                                setCurrentOffsetInput("");
+                                (document.getElementById("fname") as HTMLInputElement).value = "";
                             } else {
-                                alert("Unknown error. Please try again.");
+                                if (document.getElementById("fname") as HTMLInputElement && (document.getElementById("fname") as HTMLInputElement).value.trim() === "") {
+                                    alert("Please enter a name.");
+                                } else if (typeof currentOffsetInput !== "number" || currentOffsetInput < 0 || currentOffsetInput > 23) {
+                                    alert("Enter a valid number.")
+                                } else {
+                                    alert("Unknown error. Please try again.");
+                                }
                             }
-                        }
-                    }}
-                    >
-                    Insert
-                    </button>
+                        }}
+                        >
+                        Insert
+                        </button>
+                </div>
+                </div>
+                <div>
+                <button
+                    className="px-2 py-1 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer transition-transform duration-300 ease-in-out shadow-s hover:bg-cyan-600 hover:shadow-xl active:bg-cyan-800 active:shadow-xl active:translate-y-px"
+                    type="button"
+                    onClick={onClearAll}
+                >
+                Clear All
+                </button>
                 </div>
             </div>
         </>
@@ -178,13 +190,21 @@ function App() {
         setCurrentTime(fromLocalTime(adjustedValue, timeDiff))
     }
 
+    const onClearAll = (): void => {
+        setTimeSlots([]);
+    }
+
+
     return (
     <>
         <div className={"w-screen text-center text-5xl font-bold tracking-widest font-zen-dots p-8 text-[rgb(255,83,83)]"}>- - - - PHONE CALL TIMING - - - -</div>
         <div className="grid grid-cols-2 justify-items-center">
-            <InputForm onInsert={(name: string, offset: number) => {
+            <InputForm 
+            onInsert={(name: string, offset: number) => {
                 setTimeSlots([...timeSlots, { name, offset }]);
-            }}/>
+            }}
+            onClearAll={onClearAll}
+            />
             <TimeSlotBoard 
             slots={timeSlots}
             currentTime={currentTime}
