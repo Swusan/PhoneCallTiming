@@ -36,7 +36,7 @@ function RemoveButton({onRemove, slotUUID}: RemoveButtonProps) {
 
     return (
         <button
-                className={`absolute top-3 right-6 ${isActive ? "text-gray-600" : "text-[#949494]"}`}
+                className={` ml-auto ${isActive ? "text-gray-600" : "text-[#949494]"}`}
                 type="button"
                 onClick={() => {
                     setIsActive(true)
@@ -52,12 +52,12 @@ function RemoveButton({onRemove, slotUUID}: RemoveButtonProps) {
 
 function TimeSlot({name, timeDifference, sliderVal, timeString, id, handleChange, onRemove}: TimeSlotProps) {
     return (
-        <div className="w-full max-w-[320px] px-6 py-4 bg-[rgb(255,83,83)] rounded-lg relative mx-auto">
+        <div className="flex flex-col w-full max-w-[320px] px-6 py-4 bg-[rgb(255,83,83)] rounded-lg mx-auto">
             <RemoveButton 
                 onRemove={onRemove}
                 slotUUID={id}
             />
-            <div className="p-3 text-center font-karla text-lg">{name} +{timeDifference} hr(s)</div>
+            <div className="text-center font-karla text-lg">{name} +{timeDifference} hr(s)</div>
             <div className="p-3 text-center">
                 <input
                     className="accent-emerald-600"
