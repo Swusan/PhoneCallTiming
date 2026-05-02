@@ -1,7 +1,7 @@
 import './App.css'
 import type {ChangeEvent, ChangeEventHandler} from "react";
 import {useState} from "react";
-import TrashBin from './assets/trash-can.svg'
+import { v4 as uuid } from 'uuid';
 
 type TimeSlotProps = {
     name: string
@@ -12,13 +12,13 @@ type TimeSlotProps = {
 }
 
 type TimeSlotBoardProps = {
-    slots: {name: string, offset: number}[]
+    slots: {name: string, offset: number, id: string}[]
     currentTime: number
     changeTime: (timeDiff:number) => ChangeEventHandler<HTMLInputElement>
 }
 
 type InputFormProps = {
-    onInsert: (name: string, offset: number) => void
+    onInsert: (name: string, offset: number, id: string) => void
     onClearAll: () => void
 }
 
@@ -77,7 +77,7 @@ function TimeSlotBoard({slots, currentTime, changeTime}: TimeSlotBoardProps) {
                 <div className="grid grid-cols-2 gap-8 place-items-center">
                     {slots.map(
                         (timeSlot) => (
-                            <div>
+                            <div key={timeSlot.id}>
                                 <TimeSlot
                                     name={timeSlot.name}
                                     timeDifference={timeSlot.offset}
@@ -149,7 +149,7 @@ function InputForm({onInsert, onClearAll}: InputFormProps) {
                         type="button"
                         onClick={() => {
                             if (typeof currentOffsetInput === "number" && currentOffsetInput >= 0 && currentOffsetInput <= 23 && (document.getElementById("fname") as HTMLInputElement).value.trim() !== "") {
-                                onInsert((document.getElementById("fname") as HTMLInputElement).value.trim(), currentOffsetInput);
+                                onInsert((document.getElementById("fname") as HTMLInputElement).value.trim(), currentOffsetInput, uuid());
                                 setCurrentOffsetInput("");
                                 (document.getElementById("fname") as HTMLInputElement).value = "";
                             } else {
@@ -182,7 +182,7 @@ function InputForm({onInsert, onClearAll}: InputFormProps) {
 }
 
 function App() {
-    const [timeSlots, setTimeSlots] = useState<{name: string, offset: number}[]>([]);
+    const [timeSlots, setTimeSlots] = useState<{name: string, offset: number, id: string}[]>([]);
     const [currentTime, setCurrentTime] = useState(0);
 
     function fromLocalTime(local: number, offset: number): number {
@@ -217,8 +217,8 @@ function App() {
         <div className={"w-screen text-center text-5xl font-bold tracking-widest font-zen-dots p-8 text-[rgb(255,83,83)]"}>- - - - PHONE CALL TIMING - - - -</div>
         <div className="grid grid-cols-2 justify-items-center">
             <InputForm 
-            onInsert={(name: string, offset: number) => {
-                setTimeSlots([...timeSlots, { name, offset }]);
+            onInsert={(name: string, offset: number, id: string) => {
+                setTimeSlots([...timeSlots, { name, offset, id }]);
             }}
             onClearAll={onClearAll}
             />
