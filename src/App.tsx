@@ -2,6 +2,7 @@ import './App.css'
 import type {ChangeEvent, ChangeEventHandler} from "react";
 import {useState} from "react";
 import { v4 as uuid } from 'uuid';
+import { motion, AnimatePresence } from 'framer-motion';
 
 type TimeSlotProps = {
     name: string
@@ -89,21 +90,23 @@ function TimeSlotBoard({slots, currentTime, changeTime, onRemove}: TimeSlotBoard
         <>
             <div className="grid place-items-center">
                 <div className="grid grid-cols-2 gap-8 place-items-center">
-                    {slots.map(
-                        (timeSlot) => (
-                            <div key={timeSlot.id}>
-                                <TimeSlot
-                                    name={timeSlot.name}
-                                    timeDifference={timeSlot.offset}
-                                    sliderVal={toLocalTime(currentTime, timeSlot.offset)}
-                                    timeString={getTime(toLocalTime(currentTime, timeSlot.offset))}
-                                    id={timeSlot.id}
-                                    handleChange={changeTime(timeSlot.offset)}
-                                    onRemove={onRemove}
-                                />
-                            </div>
-                        )
-                    )}
+                    <AnimatePresence>
+                        {slots.map(
+                            (timeSlot) => (
+                                <motion.div key={timeSlot.id} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ opacity: 0, scale: 0 }} transition={{ duration: 0.15 }}>
+                                    <TimeSlot
+                                        name={timeSlot.name}
+                                        timeDifference={timeSlot.offset}
+                                        sliderVal={toLocalTime(currentTime, timeSlot.offset)}
+                                        timeString={getTime(toLocalTime(currentTime, timeSlot.offset))}
+                                        id={timeSlot.id}
+                                        handleChange={changeTime(timeSlot.offset)}
+                                        onRemove={onRemove}
+                                    />
+                                </motion.div>
+                            )
+                        )}
+                    </AnimatePresence>
                 </div>
             </div>
         </>
