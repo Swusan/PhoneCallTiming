@@ -1,5 +1,7 @@
 # Phone Call Timing
 
+![phone-call-timing-teaser](./images/phone-call-timing.png)
+
 ## What Is Phone Call Timing
 A website to keep track of the time differences of your friends and time phone calls.
 
