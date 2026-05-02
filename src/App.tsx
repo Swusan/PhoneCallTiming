@@ -52,7 +52,7 @@ function RemoveButton({onRemove, slotUUID}: RemoveButtonProps) {
 
 function TimeSlot({name, timeDifference, sliderVal, timeString, id, handleChange, onRemove}: TimeSlotProps) {
     return (
-        <div className="px-12 py-4 bg-[rgb(255,83,83)] rounded-lg relative">
+        <div className="w-full max-w-[320px] px-6 py-4 bg-[rgb(255,83,83)] rounded-lg relative mx-auto">
             <RemoveButton 
                 onRemove={onRemove}
                 slotUUID={id}
@@ -88,12 +88,12 @@ function TimeSlotBoard({slots, currentTime, changeTime, onRemove}: TimeSlotBoard
 
     return (
         <>
-            <div className="grid place-items-center">
-                <div className="grid grid-cols-2 gap-8 place-items-center">
+            <div className="grid place-items-center w-full px-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 place-items-center w-full w-max-4xl">
                     <AnimatePresence>
                         {slots.map(
                             (timeSlot) => (
-                                <motion.div key={timeSlot.id} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ opacity: 0, scale: 0 }} transition={{ duration: 0.15 }}>
+                                <motion.div key={timeSlot.id} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ opacity: 0, scale: 0 }} transition={{ duration: 0.15 }} className="flex justify-center">
                                     <TimeSlot
                                         name={timeSlot.name}
                                         timeDifference={timeSlot.offset}
@@ -136,13 +136,13 @@ function InputForm({onInsert, onClearAll}: InputFormProps) {
 
     return (
         <>
-            <div className="w-fit flex flex-col gap-20 items-center">
+            <div className="w-fit flex flex-col gap-10 items-center">
                 <div className="w-fit h-fit p-4 flex flex-col items-center bg-[rgb(255,130,28)] rounded-lg">
                     <span className="font-karla p-2 font-bold text-xl">Add a Friend</span>
                     <div className="py-2">
                         <label className="font-karla px-2" htmlFor="fname">Name: </label>
                         <input
-                            className="bg-gray-400 rounded-lg px-2"
+                            className="bg-gray-400 rounded-lg px-2 h-10 sm:h-6"
                             type="text"
                             id="fname"
                             placeholder="Enter Name..."
@@ -151,7 +151,7 @@ function InputForm({onInsert, onClearAll}: InputFormProps) {
                     <div className="py-2">
                         <label className="font-karla px-2" htmlFor="fnum">Time Offset (+ hr[s]): </label>
                         <input
-                            className="bg-gray-400 px-2 rounded-lg"
+                            className="bg-gray-400 px-2 rounded-lg h-10 sm:h-6"
                             type="number"
                             value = {currentOffsetInput}
                             min="0"
@@ -238,7 +238,7 @@ function App() {
     return (
     <>
         <div className={"w-screen text-center text-5xl font-bold tracking-widest font-zen-dots p-8 text-[rgb(255,83,83)]"}>- - - - PHONE CALL TIMING - - - -</div>
-        <div className="grid grid-cols-2 justify-items-center">
+        <div className="grid grid-cols-2 gap-2 justify-items-center">
             <InputForm 
             onInsert={(name: string, offset: number, id: string) => {
                 setTimeSlots([...timeSlots, { name, offset, id }]);
