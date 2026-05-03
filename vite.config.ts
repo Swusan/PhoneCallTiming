@@ -12,6 +12,7 @@ export default defineConfig({
   server: {
     host: true,
     allowedHosts: [
+      "389bca2a8995a956-144-126-30-155.serveousercontent.com"
     ]
   }
 })
