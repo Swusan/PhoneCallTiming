@@ -142,7 +142,7 @@ function InputForm({onInsert, onClearAll}: InputFormProps) {
                     <div className="py-2">
                         <label className="font-karla px-2" htmlFor="fname">Name: </label>
                         <input
-                            className="bg-gray-400 rounded-lg px-2 h-10 sm:h-6"
+                            className="bg-gray-300 rounded-lg px-2 h-10 sm:h-6"
                             type="text"
                             id="fname"
                             placeholder="Enter Name..."
@@ -151,7 +151,7 @@ function InputForm({onInsert, onClearAll}: InputFormProps) {
                     <div className="py-2">
                         <label className="font-karla px-2" htmlFor="fnum">Time Offset (+ hr[s]): </label>
                         <input
-                            className="bg-gray-400 px-2 rounded-lg h-10 sm:h-6"
+                            className="bg-gray-300 px-2 rounded-lg h-10 sm:h-6"
                             type="number"
                             value = {currentOffsetInput}
                             min="0"
