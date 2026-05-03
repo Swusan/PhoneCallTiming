@@ -57,8 +57,9 @@ function TimeSlot({name, timeDifference, sliderVal, timeString, id, handleChange
                 onRemove={onRemove}
                 slotUUID={id}
             />
-            <div className="p-3 text-center font-karla text-lg">{name} +{timeDifference} hr(s)</div>
-            <div className="p-3 text-center">
+            <div className="text-center font-karla text-lg">{name}</div>
+            <div className="text-center font-karla text-lg">+{timeDifference} hr(s)</div>
+            <div className="text-center">
                 <input
                     className="accent-emerald-600"
                     type="range"
@@ -88,26 +89,24 @@ function TimeSlotBoard({slots, currentTime, changeTime, onRemove}: TimeSlotBoard
 
     return (
         <>
-            <div className="grid place-items-center w-full px-4">
-                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center w-full w-max-4xl">
-                    <AnimatePresence>
-                        {slots.map(
-                            (timeSlot) => (
-                                <motion.div key={timeSlot.id} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ opacity: 0, scale: 0 }} transition={{ duration: 0.15 }} className="flex justify-center">
-                                    <TimeSlot
-                                        name={timeSlot.name}
-                                        timeDifference={timeSlot.offset}
-                                        sliderVal={toLocalTime(currentTime, timeSlot.offset)}
-                                        timeString={getTime(toLocalTime(currentTime, timeSlot.offset))}
-                                        id={timeSlot.id}
-                                        handleChange={changeTime(timeSlot.offset)}
-                                        onRemove={onRemove}
-                                    />
-                                </motion.div>
-                            )
-                        )}
-                    </AnimatePresence>
-                </div>
+            <div className="flex flex-row flex-wrap gap-4">
+                <AnimatePresence>
+                    {slots.map(
+                        (timeSlot) => (
+                            <motion.div key={timeSlot.id} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ opacity: 0, scale: 0 }} transition={{ duration: 0.15 }} className="flex justify-center">
+                                <TimeSlot
+                                    name={timeSlot.name}
+                                    timeDifference={timeSlot.offset}
+                                    sliderVal={toLocalTime(currentTime, timeSlot.offset)}
+                                    timeString={getTime(toLocalTime(currentTime, timeSlot.offset))}
+                                    id={timeSlot.id}
+                                    handleChange={changeTime(timeSlot.offset)}
+                                    onRemove={onRemove}
+                                />
+                            </motion.div>
+                        )
+                    )}
+                </AnimatePresence>
             </div>
         </>
     )
