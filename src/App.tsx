@@ -61,6 +61,7 @@ function TimeSlot({name, timeDifference, sliderVal, timeString, id, handleChange
             <div className="text-center font-karla text-lg">{name}</div>
             <div className="text-center font-karla text-lg">{timeDifference} hr(s)</div>
             <div className="text-center">
+                {/* 1439 = 24 (hours) x 60 (minutes) - 1*/}
                 <input
                     className="accent-emerald-600"
                     type="range"
@@ -77,10 +78,13 @@ function TimeSlot({name, timeDifference, sliderVal, timeString, id, handleChange
 }
 
 function TimeSlotBoard({slots, currentTime, changeTime, onRemove}: TimeSlotBoardProps) {
+    // Returns minute value of the corresponding local time for each time slot
+    // Takes base time (shared across all slots) and time offset
     function toLocalTime(base: number, offset: number): number {
         return (base + offset * 60 + 1440) % 1440
     }
 
+    // Returns string of time given its minute value (i.e. 0 -> 12:00 a.m.)
     function getTime(time : number) {
         const hour: number = Math.trunc(time / 60)
 
@@ -88,17 +92,19 @@ function TimeSlotBoard({slots, currentTime, changeTime, onRemove}: TimeSlotBoard
             + ":" + String(time % 60).padStart(2, "0") + " " + (time >= 720 ? "p.m." : "a.m.")
     }
 
+    // Returns the time offset with signs attached
     function getSignedTimeDifference(timeDifference : number): string {
         if (timeDifference >= 0) {
-            return "+" + String(timeDifference);
+            return "+" + String(timeDifference)
         } else {
-            return String(timeDifference);
+            return String(timeDifference)
         }
     }
 
     return (
         <>
             <div className="flex flex-row flex-wrap gap-4">
+                {/* Uses framer-motion tags to animate inserts and removals */}
                 <AnimatePresence>
                     {slots.map(
                         (timeSlot) => (
@@ -126,6 +132,7 @@ function InputForm({onInsert, onClearAll}: InputFormProps) {
     const minTimeOffset: number = -23;
     const maxTimeOffset: number = 23;
 
+    // Takes in a change event and ensures the target value is within valid time offset bounds (-23..23)
     const handleOffsetInput = (e: ChangeEvent<HTMLInputElement>) => {
         const numVal = Number(e.target.value)
 
@@ -136,6 +143,7 @@ function InputForm({onInsert, onClearAll}: InputFormProps) {
         }
     };
 
+    // Sets the react use state value to the offset input
     const handleOffsetChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (!(e.target.value === "")) {
           setCurrentOffsetInput(Number(e.target.value))  
@@ -211,6 +219,7 @@ function InputForm({onInsert, onClearAll}: InputFormProps) {
 }
 
 function App() {
+    // Uses local storage so added time slots are saved over between site uses
     const [timeSlots, setTimeSlots] = useState<{name: string, offset: number, id: string}[]>(
         () => {
             const savedData = localStorage.getItem("slotData");
@@ -218,16 +227,19 @@ function App() {
         }
     );
 
+    // Updates local storage list every time it changes
     useEffect(() => {
     localStorage.setItem("slotData", JSON.stringify(timeSlots));
     }, [timeSlots]);
 
     const [currentTime, setCurrentTime] = useState(0);
 
+    // Takes in a time offset and it's respective time and transforms it into base time
     function fromLocalTime(local: number, offset: number): number {
         return (local - offset * 60 + 1440) % 1440
     }
 
+    // Allows sliders to reach 11:59 p.m. while still stepping by 5
     const changeTime = (timeDiff: number): ChangeEventHandler<HTMLInputElement> =>
         (e) => {
 
@@ -236,7 +248,7 @@ function App() {
         const step = 5;
         let adjustedValue: number;
 
-        if (val > max - step) {
+        if (val > max - step) { 
             adjustedValue = max;
         } else {
             adjustedValue = Math.round(val / step) * step;
@@ -245,10 +257,12 @@ function App() {
         setCurrentTime(fromLocalTime(adjustedValue, timeDiff))
     }
 
+    // Sets Time Slots to empty array when Clear All is activated
     const onClearAll = (): void => {
         setTimeSlots([]);
     }
 
+    // Removes time slot given a UUID
     const onRemove = (removeUUID: string) : void => {
         setTimeSlots(timeSlots.filter(item => item.id != removeUUID))
     }
