@@ -1,6 +1,6 @@
 import './App.css'
 import type {ChangeEvent, ChangeEventHandler} from "react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { v4 as uuid } from 'uuid';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -201,7 +201,17 @@ function InputForm({onInsert, onClearAll}: InputFormProps) {
 }
 
 function App() {
-    const [timeSlots, setTimeSlots] = useState<{name: string, offset: number, id: string}[]>([]);
+    const [timeSlots, setTimeSlots] = useState<{name: string, offset: number, id: string}[]>(
+        () => {
+            const savedData = localStorage.getItem("slotData");
+            return savedData ? JSON.parse(savedData) : [];
+        }
+    );
+
+    useEffect(() => {
+    localStorage.setItem("slotData", JSON.stringify(timeSlots));
+    }, [timeSlots]);
+
     const [currentTime, setCurrentTime] = useState(0);
 
     function fromLocalTime(local: number, offset: number): number {
