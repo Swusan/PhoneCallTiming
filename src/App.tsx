@@ -89,7 +89,7 @@ function TimeSlotBoard({slots, currentTime, changeTime, onRemove}: TimeSlotBoard
     return (
         <>
             <div className="grid place-items-center w-full px-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 place-items-center w-full w-max-4xl">
+                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center w-full w-max-4xl">
                     <AnimatePresence>
                         {slots.map(
                             (timeSlot) => (
