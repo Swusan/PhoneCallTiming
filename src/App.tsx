@@ -108,7 +108,7 @@ function TimeSlotBoard({slots, currentTime, changeTime, onRemove}: TimeSlotBoard
 
     return (
         <>
-            <div className="flex flex-row flex-wrap gap-4">
+            <div className="flex flex-row flex-wrap items-center gap-4">
                 {/* Uses framer-motion tags to animate inserts and removals */}
                 <AnimatePresence>
                     {slots.map(
