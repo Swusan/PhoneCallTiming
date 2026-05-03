@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 type TimeSlotProps = {
     name: string
-    timeDifference: number
+    timeDifference: string
     sliderVal: number
     timeString: string
     id: string
@@ -43,6 +43,7 @@ function RemoveButton({onRemove, slotUUID}: RemoveButtonProps) {
                     onRemove(slotUUID)
                 }}
             >
+                {/* Borderline a really long svg path, but was much simpler than using an svg in files */}
                 <svg viewBox="0 0 456 511.82" width="21" fill="currentColor">
                     <path d="M48.42 140.13h361.99c17.36 0 29.82 9.78 28.08 28.17l-30.73 317.1c-1.23 13.36-8.99 26.42-25.3 26.42H76.34c-13.63-.73-23.74-9.75-25.09-24.14L20.79 168.99c-1.74-18.38 9.75-28.86 27.63-28.86zM24.49 38.15h136.47V28.1c0-15.94 10.2-28.1 27.02-28.1h81.28c17.3 0 27.65 11.77 27.65 28.01v10.14h138.66c.57 0 1.11.07 1.68.13 10.23.93 18.15 9.02 18.69 19.22.03.79.06 1.39.06 2.17v42.76c0 5.99-4.73 10.89-10.62 11.19-.54 0-1.09.03-1.63.03H11.22c-5.92 0-10.77-4.6-11.19-10.38 0-.72-.03-1.47-.03-2.23v-39.5c0-10.93 4.21-20.71 16.82-23.02 2.53-.45 5.09-.37 7.67-.37zm83.78 208.38c-.51-10.17 8.21-18.83 19.53-19.31 11.31-.49 20.94 7.4 21.45 17.57l8.7 160.62c.51 10.18-8.22 18.84-19.53 19.32-11.32.48-20.94-7.4-21.46-17.57l-8.69-160.63zm201.7-1.74c.51-10.17 10.14-18.06 21.45-17.57 11.32.48 20.04 9.14 19.53 19.31l-8.66 160.63c-.52 10.17-10.14 18.05-21.46 17.57-11.31-.48-20.04-9.14-19.53-19.32l8.67-160.62zm-102.94.87c0-10.23 9.23-18.53 20.58-18.53 11.34 0 20.58 8.3 20.58 18.53v160.63c0 10.23-9.24 18.53-20.58 18.53-11.35 0-20.58-8.3-20.58-18.53V245.66z"/>
                 </svg>
@@ -58,7 +59,7 @@ function TimeSlot({name, timeDifference, sliderVal, timeString, id, handleChange
                 slotUUID={id}
             />
             <div className="text-center font-karla text-lg">{name}</div>
-            <div className="text-center font-karla text-lg">+{timeDifference} hr(s)</div>
+            <div className="text-center font-karla text-lg">{timeDifference} hr(s)</div>
             <div className="text-center">
                 <input
                     className="accent-emerald-600"
@@ -87,6 +88,14 @@ function TimeSlotBoard({slots, currentTime, changeTime, onRemove}: TimeSlotBoard
             + ":" + String(time % 60).padStart(2, "0") + " " + (time >= 720 ? "p.m." : "a.m.")
     }
 
+    function getSignedTimeDifference(timeDifference : number): string {
+        if (timeDifference >= 0) {
+            return "+" + String(timeDifference);
+        } else {
+            return String(timeDifference);
+        }
+    }
+
     return (
         <>
             <div className="flex flex-row flex-wrap gap-4">
@@ -96,7 +105,7 @@ function TimeSlotBoard({slots, currentTime, changeTime, onRemove}: TimeSlotBoard
                             <motion.div key={timeSlot.id} initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ opacity: 0, scale: 0 }} transition={{ duration: 0.15 }} className="flex justify-center">
                                 <TimeSlot
                                     name={timeSlot.name}
-                                    timeDifference={timeSlot.offset}
+                                    timeDifference={getSignedTimeDifference(timeSlot.offset)}
                                     sliderVal={toLocalTime(currentTime, timeSlot.offset)}
                                     timeString={getTime(toLocalTime(currentTime, timeSlot.offset))}
                                     id={timeSlot.id}
@@ -119,9 +128,9 @@ function InputForm({onInsert, onClearAll}: InputFormProps) {
         const numVal = Number(e.target.value)
 
         if (!isNaN(numVal) && numVal > Number(e.target.max)) {
-            setCurrentOffsetInput(Number(23));
+            setCurrentOffsetInput(Number(e.target.max));
         } else if (!isNaN(numVal) && numVal < Number(e.target.min)) {
-            setCurrentOffsetInput(Number(0));
+            setCurrentOffsetInput(Number(e.target.min));
         }
     };
 
@@ -153,7 +162,7 @@ function InputForm({onInsert, onClearAll}: InputFormProps) {
                             className="bg-gray-300 px-2 rounded-lg h-10 sm:h-6"
                             type="number"
                             value = {currentOffsetInput}
-                            min="0"
+                            min="-23"
                             max="23"
                             onChange={handleOffsetChange}
                             onBlur={handleOffsetInput}
@@ -166,14 +175,14 @@ function InputForm({onInsert, onClearAll}: InputFormProps) {
                         className='px-2 py-1 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer transition-transform duration-300 ease-in-out shadow-s hover:bg-cyan-600 hover:shadow-xl active:bg-cyan-800 active:shadow-xl active:translate-y-px'
                         type="button"
                         onClick={() => {
-                            if (typeof currentOffsetInput === "number" && currentOffsetInput >= 0 && currentOffsetInput <= 23 && (document.getElementById("fname") as HTMLInputElement).value.trim() !== "") {
+                            if (typeof currentOffsetInput === "number" && currentOffsetInput >= -23 && currentOffsetInput <= 23 && (document.getElementById("fname") as HTMLInputElement).value.trim() !== "") {
                                 onInsert((document.getElementById("fname") as HTMLInputElement).value.trim(), currentOffsetInput, uuid());
                                 setCurrentOffsetInput("");
                                 (document.getElementById("fname") as HTMLInputElement).value = "";
                             } else {
                                 if (document.getElementById("fname") as HTMLInputElement && (document.getElementById("fname") as HTMLInputElement).value.trim() === "") {
                                     alert("Please enter a name.");
-                                } else if (typeof currentOffsetInput !== "number" || currentOffsetInput < 0 || currentOffsetInput > 23) {
+                                } else if (typeof currentOffsetInput !== "number" || currentOffsetInput < -23 || currentOffsetInput > 23) {
                                     alert("Enter a valid number.")
                                 } else {
                                     alert("Unknown error. Please try again.");
@@ -216,8 +225,6 @@ function App() {
     function fromLocalTime(local: number, offset: number): number {
         return (local - offset * 60 + 1440) % 1440
     }
-
-    // TODO: Limit Names to 12 chars
 
     const changeTime = (timeDiff: number): ChangeEventHandler<HTMLInputElement> =>
         (e) => {
