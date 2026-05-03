@@ -123,14 +123,16 @@ function TimeSlotBoard({slots, currentTime, changeTime, onRemove}: TimeSlotBoard
 
 function InputForm({onInsert, onClearAll}: InputFormProps) {
     const [currentOffsetInput, setCurrentOffsetInput] = useState<number | string>("");
+    const minTimeOffset: number = -23;
+    const maxTimeOffset: number = 23;
 
     const handleOffsetInput = (e: ChangeEvent<HTMLInputElement>) => {
         const numVal = Number(e.target.value)
 
-        if (!isNaN(numVal) && numVal > Number(e.target.max)) {
-            setCurrentOffsetInput(Number(e.target.max));
-        } else if (!isNaN(numVal) && numVal < Number(e.target.min)) {
-            setCurrentOffsetInput(Number(e.target.min));
+        if (!isNaN(numVal) && numVal > Number(maxTimeOffset)) {
+            setCurrentOffsetInput(maxTimeOffset);
+        } else if (!isNaN(numVal) && numVal < minTimeOffset) {
+            setCurrentOffsetInput(minTimeOffset);
         }
     };
 
@@ -162,8 +164,8 @@ function InputForm({onInsert, onClearAll}: InputFormProps) {
                             className="bg-gray-300 px-2 rounded-lg h-10 sm:h-6"
                             type="number"
                             value = {currentOffsetInput}
-                            min="-23"
-                            max="23"
+                            min={minTimeOffset}
+                            max={maxTimeOffset}
                             onChange={handleOffsetChange}
                             onBlur={handleOffsetInput}
                             placeholder="Offset.."
@@ -175,14 +177,14 @@ function InputForm({onInsert, onClearAll}: InputFormProps) {
                         className='px-2 py-1 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer transition-transform duration-300 ease-in-out shadow-s hover:bg-cyan-600 hover:shadow-xl active:bg-cyan-800 active:shadow-xl active:translate-y-px'
                         type="button"
                         onClick={() => {
-                            if (typeof currentOffsetInput === "number" && currentOffsetInput >= -23 && currentOffsetInput <= 23 && (document.getElementById("fname") as HTMLInputElement).value.trim() !== "") {
+                            if (typeof currentOffsetInput === "number" && currentOffsetInput >= minTimeOffset && currentOffsetInput <= maxTimeOffset && (document.getElementById("fname") as HTMLInputElement).value.trim() !== "") {
                                 onInsert((document.getElementById("fname") as HTMLInputElement).value.trim(), currentOffsetInput, uuid());
                                 setCurrentOffsetInput("");
                                 (document.getElementById("fname") as HTMLInputElement).value = "";
                             } else {
                                 if (document.getElementById("fname") as HTMLInputElement && (document.getElementById("fname") as HTMLInputElement).value.trim() === "") {
                                     alert("Please enter a name.");
-                                } else if (typeof currentOffsetInput !== "number" || currentOffsetInput < -23 || currentOffsetInput > 23) {
+                                } else if (typeof currentOffsetInput !== "number" || currentOffsetInput < minTimeOffset || currentOffsetInput > maxTimeOffset) {
                                     alert("Enter a valid number.")
                                 } else {
                                     alert("Unknown error. Please try again.");
