@@ -276,7 +276,7 @@ function App() {
     <>
         <div className={"w-screen text-center text-5xl font-bold tracking-widest font-zen-dots p-8 text-[rgb(255,83,83)] md:hidden"}> PHONE CALL TIMING </div>
         <div className={"hidden md:block w-screen text-center text-5xl font-bold tracking-widest font-zen-dots p-8 text-[rgb(255,83,83)]"}>- - - - PHONE CALL TIMING - - - -</div>
-        <div className="flex flex-col items-center gap-5 md:grid md:grid-cols-2 md:gap-2 md:justify-items-center">
+        <div className="flex flex-col gap-5 md:grid md:grid-cols-2 md:gap-2 md:justify-items-center">
             <InputForm 
             onInsert={(name: string, offset: number, id: string) => {
                 setTimeSlots([...timeSlots, { name, offset, id }]);
