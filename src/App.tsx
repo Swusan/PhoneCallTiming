@@ -36,10 +36,15 @@ function RemoveButton({onRemove, slotUUID}: RemoveButtonProps) {
 
     return (
         <button
-                className={` ml-auto ${isActive ? "text-gray-600" : "text-[#949494]"}`}
+                className={`cursor-pointer ml-auto ${isActive ? "text-gray-600" : "text-[#949494]"}`}
                 type="button"
-                onClick={() => {
+                onMouseOver={() => {
                     setIsActive(true)
+                }}
+                onMouseOut={() => {
+                    setIsActive(false)
+                }}
+                onClick={() => {
                     onRemove(slotUUID)
                 }}
             >
