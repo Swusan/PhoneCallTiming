@@ -290,6 +290,16 @@ function App() {
             onRemove={onRemove}
             />
         </div>
+        <footer>
+            <div className="flex flex-row flex-wrap">
+                <div className="px-4">
+                    <a className="px-4 py-2 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer transition-transform duration-300 ease-in-out shadow-s hover:bg-[rgb(255,130,28)] hover:shadow-xl active:bg-[rgb(255,90,28)] active:shadow-xl active:translate-y-px" href="https://account.venmo.com/u/susanischulman" target="_blank">Buy Me A Coffee</a>
+                </div>
+                <div className="px-4">
+                    <a className="px-4 py-2 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer transition-transform duration-300 ease-in-out shadow-s hover:bg-[rgb(255,130,28)] hover:shadow-xl active:bg-[rgb(255,90,28)] active:shadow-xl active:translate-y-px" href="https://github.com/Swusan/PhoneCallTiming" target="_blank">GitHub</a>
+                </div>
+            </div>
+        </footer>
     </>
     )
 }
