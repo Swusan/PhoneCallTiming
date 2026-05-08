@@ -108,7 +108,7 @@ function TimeSlotBoard({slots, currentTime, changeTime, onRemove}: TimeSlotBoard
 
     return (
         <>
-            <div className="flex flex-row flex-wrap items-center gap-4">
+            <div className="flex flex-row flex-wrap items-center gap-4 p-2">
                 {/* Uses framer-motion tags to animate inserts and removals */}
                 <AnimatePresence>
                     {slots.map(
@@ -276,7 +276,7 @@ function App() {
     <>
         <div className={"w-screen text-center text-5xl font-bold tracking-widest font-zen-dots p-8 text-[rgb(255,83,83)] md:hidden"}> PHONE CALL TIMING </div>
         <div className={"hidden md:block w-screen text-center text-5xl font-bold tracking-widest font-zen-dots p-8 text-[rgb(255,83,83)]"}>- - - - PHONE CALL TIMING - - - -</div>
-        <div className="flex flex-col gap-5 md:grid md:grid-cols-2 md:gap-2 md:justify-items-center">
+        <div className="flex flex-col items-center justify-center gap-5 md:grid md:grid-cols-2 md:gap-2 md:justify-items-center">
             <InputForm 
             onInsert={(name: string, offset: number, id: string) => {
                 setTimeSlots([...timeSlots, { name, offset, id }]);
@@ -290,7 +290,7 @@ function App() {
             onRemove={onRemove}
             />
         </div>
-        <footer>
+        {/*<footer>
             <div className="flex flex-row flex-wrap">
                 <div className="px-4">
                     <a className="px-4 py-2 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer transition-transform duration-300 ease-in-out shadow-s hover:bg-[rgb(255,130,28)] hover:shadow-xl active:bg-[rgb(255,90,28)] active:shadow-xl active:translate-y-px" href="https://account.venmo.com/u/susanischulman" target="_blank">Buy Me A Coffee</a>
@@ -299,7 +299,7 @@ function App() {
                     <a className="px-4 py-2 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer transition-transform duration-300 ease-in-out shadow-s hover:bg-[rgb(255,130,28)] hover:shadow-xl active:bg-[rgb(255,90,28)] active:shadow-xl active:translate-y-px" href="https://github.com/Swusan/PhoneCallTiming" target="_blank">GitHub</a>
                 </div>
             </div>
-        </footer>
+        </footer>*/}
     </>
     )
 }
