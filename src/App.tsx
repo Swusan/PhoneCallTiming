@@ -274,32 +274,42 @@ function App() {
 
     return (
     <>
-        <div className={"w-screen text-center text-5xl font-bold tracking-widest font-zen-dots p-8 text-[rgb(255,83,83)] md:hidden"}> PHONE CALL TIMING </div>
-        <div className={"hidden md:block w-screen text-center text-5xl font-bold tracking-widest font-zen-dots p-8 text-[rgb(255,83,83)]"}>- - - - PHONE CALL TIMING - - - -</div>
-        <div className="flex flex-col items-center justify-center gap-5 md:grid md:grid-cols-2 md:gap-2 md:justify-items-center">
-            <InputForm 
-            onInsert={(name: string, offset: number, id: string) => {
-                setTimeSlots([...timeSlots, { name, offset, id }]);
-            }}
-            onClearAll={onClearAll}
-            />
-            <TimeSlotBoard 
-            slots={timeSlots}
-            currentTime={currentTime}
-            changeTime={changeTime}
-            onRemove={onRemove}
-            />
+        <div className="grid grid-rows-[auto_1fr_auto] min-h-dvh overflow-x-hidden">
+            <header>
+                <div
+                    className={"text-center w-full text-5xl font-bold tracking-widest font-zen-dots p-8 text-[rgb(255,83,83)] md:hidden"}> PHONE
+                    CALL TIMING
+                </div>
+                <div
+                    className={"hidden md:block w-full text-center text-5xl font-bold tracking-widest font-zen-dots p-8 text-[rgb(255,83,83)]"}>-
+                    - - - PHONE CALL TIMING - - - -
+                </div>
+            </header>
+            <main className="w-full max-w-full flex flex-col items-center gap-5 md:grid md:grid-cols-2 md:gap-2 md:justify-items-center md:items-start md:pt-12">
+                <InputForm
+                onInsert={(name: string, offset: number, id: string) => {
+                    setTimeSlots([...timeSlots, {name, offset, id}]);
+                }}
+                onClearAll={onClearAll}
+                />
+                <div className="min-w-0 w-full">
+                    <TimeSlotBoard
+                        slots={timeSlots}
+                        currentTime={currentTime}
+                        changeTime={changeTime}
+                        onRemove={onRemove}
+                    />
+                </div>
+            </main>
+            <footer className="flex flex-row flex-wrap mt-auto py-1">
+                <div className="px-4">
+                    <a className="inline-block box-border px-4 py-2 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer transition-transform duration-300 ease-in-out shadow-s hover:bg-[rgb(255,130,28)] hover:shadow-xl active:bg-[rgb(255,90,28)] active:shadow-xl active:translate-y-px" href="https://account.venmo.com/u/susanischulman" target="_blank">Buy Me A Coffee</a>
+                </div>
+                <div className="px-4">
+                    <a className="inline-block box-border px-4 py-2 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer transition-transform duration-300 ease-in-out shadow-s hover:bg-[rgb(255,130,28)] hover:shadow-xl active:bg-[rgb(255,90,28)] active:shadow-xl active:translate-y-px" href="https://github.com/Swusan/PhoneCallTiming" target="_blank">GitHub</a>
+                </div>
+            </footer>
         </div>
-        {/*<footer>
-            <div className="flex flex-row flex-wrap">
-                <div className="px-4">
-                    <a className="px-4 py-2 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer transition-transform duration-300 ease-in-out shadow-s hover:bg-[rgb(255,130,28)] hover:shadow-xl active:bg-[rgb(255,90,28)] active:shadow-xl active:translate-y-px" href="https://account.venmo.com/u/susanischulman" target="_blank">Buy Me A Coffee</a>
-                </div>
-                <div className="px-4">
-                    <a className="px-4 py-2 font-karla bg-[rgb(255,83,83)] rounded-lg cursor-pointer transition-transform duration-300 ease-in-out shadow-s hover:bg-[rgb(255,130,28)] hover:shadow-xl active:bg-[rgb(255,90,28)] active:shadow-xl active:translate-y-px" href="https://github.com/Swusan/PhoneCallTiming" target="_blank">GitHub</a>
-                </div>
-            </div>
-        </footer>*/}
     </>
     )
 }
