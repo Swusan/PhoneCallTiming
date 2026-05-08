@@ -14,4 +14,4 @@ Email: sischulman.dev@gmail.com
 Github: github.com/Swusan   
 
 ## License
-MIT Licens - Copyright (c) 2025 Swusan
+MIT License - Copyright (c) 2025 Swusan
