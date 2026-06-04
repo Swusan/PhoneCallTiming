@@ -9,10 +9,5 @@ export default defineConfig({
     tailwindcss(),
   ],
 
-  server: {
-    host: true,
-    allowedHosts: [
-      ""
-    ]
-  }
+  base: '/PhoneCallTiming/',
 })
